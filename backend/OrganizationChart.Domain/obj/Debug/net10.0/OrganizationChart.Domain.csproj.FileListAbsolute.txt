@@ -1,0 +1,11 @@
+D:\OrganizationChart\backend\OrganizationChart.Domain\bin\Debug\net10.0\OrganizationChart.Domain.deps.json
+D:\OrganizationChart\backend\OrganizationChart.Domain\bin\Debug\net10.0\OrganizationChart.Domain.dll
+D:\OrganizationChart\backend\OrganizationChart.Domain\bin\Debug\net10.0\OrganizationChart.Domain.pdb
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.AssemblyInfoInputs.cache
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.AssemblyInfo.cs
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.csproj.CoreCompileInputs.cache
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.dll
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\refint\OrganizationChart.Domain.dll
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.pdb
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\ref\OrganizationChart.Domain.dll

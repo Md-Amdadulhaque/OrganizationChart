@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/backend/">
+    <Project Path="backend/OrganizationChart.Api/OrganizationChart.Api.csproj" />
+    <Project Path="backend/OrganizationChart.Domain/OrganizationChart.Domain.csproj" />
+  </Folder>
+</Solution>
