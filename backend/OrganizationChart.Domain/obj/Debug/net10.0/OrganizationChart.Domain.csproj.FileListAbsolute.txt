@@ -9,3 +9,4 @@ D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\Organiza
 D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\refint\OrganizationChart.Domain.dll
 D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.pdb
 D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\ref\OrganizationChart.Domain.dll
+D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.sourcelink.json

@@ -161,3 +161,12 @@ D:\OrganizationChart\backend\OrganizationChart.Api\obj\Debug\net10.0\ref\Organiz
 D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
 D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\ClosedXML.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\ClosedXML.Parser.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\DocumentFormat.OpenXml.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\DocumentFormat.OpenXml.Framework.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\ExcelNumberFormat.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\RBush.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\SixLabors.Fonts.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\System.IO.Packaging.dll
+D:\OrganizationChart\backend\OrganizationChart.Api\obj\Debug\net10.0\OrganizationChart.Api.sourcelink.json
