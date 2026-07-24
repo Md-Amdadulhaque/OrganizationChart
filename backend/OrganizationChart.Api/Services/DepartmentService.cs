@@ -53,7 +53,6 @@ public class DepartmentService : IDepartmentService
         };
 
         _context.Departments.Add(department);
-        await _context.SaveChangesAsync();
 
         return new DepartmentDto
         {
@@ -62,6 +61,7 @@ public class DepartmentService : IDepartmentService
             Name = department.Name,
             ParentDepartmentId = department.ParentDepartmentId
         };
+
     }
 
     public async Task<bool> UpdateAsync(int id, UpdateDepartmentDto dto)
@@ -71,10 +71,24 @@ public class DepartmentService : IDepartmentService
         if (department == null)
             return false;
 
+        var oldValue =
+    $"{department.DepartmentCode}|{department.Name}|{department.ParentDepartmentId}";
+
         department.DepartmentCode = dto.DepartmentCode;
         department.Name = dto.Name;
         department.ParentDepartmentId = dto.ParentDepartmentId;
 
+
+        var newValue =
+    $"{department.DepartmentCode}|{department.Name}|{department.ParentDepartmentId}";
+
+        _context.DepartmentHistories.Add(new DepartmentHistory
+        {
+            DepartmentId = department.Id,
+            Action = "Update",
+            OldValue = oldValue,
+            NewValue = newValue
+        });
         await _context.SaveChangesAsync();
 
         return true;

@@ -97,12 +97,24 @@ public class UserService : IUserService
         if (!departmentExists)
             throw new ArgumentException("Department does not exist.");
 
+        var oldValue =
+              $"{user.FirstName}|{user.LastName}|{user.DepartmentId}|{user.Title}|{user.EmployeeNumber}";
+
         user.EmployeeNumber = dto.EmployeeNumber;
         user.FirstName = dto.FirstName;
         user.LastName = dto.LastName;
         user.Title = dto.Title;
         user.DepartmentId = dto.DepartmentId;
 
+        var newValue = $"{user.FirstName}|{user.LastName}|{user.DepartmentId}|{user.Title}|{user.EmployeeNumber}";
+
+        _context.UserHistories.Add(new UserHistory
+        {
+            UserId = user.Id,
+            Action = "Update",
+            OldValue = oldValue,
+            NewValue = newValue
+        });
         await _context.SaveChangesAsync();
 
         return true;
