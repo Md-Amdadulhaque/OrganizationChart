@@ -3,31 +3,24 @@
 <form [formGroup]="form" (ngSubmit)="OnSubmit()">
 
     <mat-form-field appearance="outline">
-
         <mat-label>Department Code</mat-label>
-
         <input matInput formControlName="departmentCode">
-
     </mat-form-field>
 
     <br>
 
     <mat-form-field appearance="outline">
-
         <mat-label>Department Name</mat-label>
-
         <input matInput formControlName="name">
-
     </mat-form-field>
 
     <br>
 
-    <button mat-raised-button color="primary" (click)="OnSubmit()">
-
+    <button
+        mat-raised-button
+        color="primary"
+        type="submit">
         Save
-
     </button>
-
-
 
 </form>
