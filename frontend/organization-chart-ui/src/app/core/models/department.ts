@@ -3,4 +3,5 @@ export interface Department {
   departmentCode: string;
   name: string;
   parentDepartmentId?: number;
+  parentDepartmentName?: string;
 }

@@ -53,7 +53,7 @@ public class DepartmentService : IDepartmentService
         };
 
         _context.Departments.Add(department);
-
+        await _context.SaveChangesAsync();
         return new DepartmentDto
         {
             Id = department.Id,
