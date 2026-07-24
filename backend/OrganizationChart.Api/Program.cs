@@ -11,6 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IOrganizationChartService, OrganizationChartService>();
+builder.Services.AddScoped<IImportService, ImportService>();
 
 builder.Services.AddControllers();
 
