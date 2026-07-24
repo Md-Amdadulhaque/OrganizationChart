@@ -93,6 +93,65 @@ public class ImportService : IImportService
 
     public async Task ImportUsersAsync(IFormFile file)
     {
+        await using var transaction = await _context.Database.BeginTransactionAsync();
 
+        try
+        {
+            using var stream = file.OpenReadStream();
+            using var workbook = new XLWorkbook(stream);
+
+            var worksheet = workbook.Worksheet(1);
+
+            var lastRow = worksheet.LastRowUsed()?.RowNumber() ?? 1;
+
+            var departmentLookup = await _context.Departments
+                .ToDictionaryAsync(d => d.Name, d => d);
+
+            var existingEmployees = await _context.Users
+                .Select(u => u.EmployeeNumber)
+                .ToHashSetAsync();
+
+            var users = new List<User>();
+
+            for (int row = 2; row <= lastRow; row++)
+            {
+                var employeeNumber = worksheet.Cell(row, 1).GetString().Trim();
+                var firstName = worksheet.Cell(row, 2).GetString().Trim();
+                var lastName = worksheet.Cell(row, 3).GetString().Trim();
+                var title = worksheet.Cell(row, 4).GetString().Trim();
+                var departmentName = worksheet.Cell(row, 5).GetString().Trim();
+
+                if (string.IsNullOrWhiteSpace(employeeNumber))
+                    continue;
+
+                if (existingEmployees.Contains(employeeNumber))
+                    continue;
+
+                if (!departmentLookup.TryGetValue(departmentName, out var department))
+                    continue;
+
+                users.Add(new User
+                {
+                    EmployeeNumber = employeeNumber,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Title = title,
+                    DepartmentId = department.Id
+                });
+
+                existingEmployees.Add(employeeNumber);
+            }
+
+            _context.Users.AddRange(users);
+
+            await _context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 }
