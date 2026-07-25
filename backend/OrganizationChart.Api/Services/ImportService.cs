@@ -80,7 +80,6 @@ public class ImportService : IImportService
             await transaction.RollbackAsync();
             throw;
         }
-
     }
 
     private async Task SetRelations(IXLWorksheet worksheet, Dictionary<string, int> columns)
@@ -172,11 +171,7 @@ public class ImportService : IImportService
         }
     }
 
-    /// <summary>
-    /// Reads the header row (row 1) and maps each header name to its column
-    /// number, so cells can be read by header instead of a fixed position.
-    /// Matching is case-insensitive and ignores surrounding whitespace.
-    /// </summary>
+
     private static Dictionary<string, int> BuildHeaderMap(IXLWorksheet worksheet)
     {
         var map = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
@@ -191,17 +186,11 @@ public class ImportService : IImportService
             if (string.IsNullOrWhiteSpace(header))
                 continue;
 
-            // First occurrence wins if a header appears more than once.
             map.TryAdd(header, col);
         }
 
         return map;
     }
-
-    /// <summary>
-    /// Returns the trimmed string value of the cell under the given header,
-    /// or an empty string when that header is not present in the file.
-    /// </summary>
     private static string GetCell(
         IXLWorksheet worksheet,
         Dictionary<string, int> columns,
