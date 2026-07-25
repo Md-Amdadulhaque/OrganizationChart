@@ -1,1 +1,98 @@
-<p>organization-chart works!</p>
+<div class="org">
+
+  <div class="org__header">
+    <h2>Organization Chart</h2>
+    <span class="org__meta" *ngIf="!loading()">{{ totalDepartments() }} departments</span>
+    <span class="org__spacer"></span>
+    <button mat-stroked-button (click)="expandAll()">Expand all</button>
+    <button mat-stroked-button (click)="collapseAll()">Collapse all</button>
+    <button mat-stroked-button (click)="load()" [disabled]="loading()">Refresh</button>
+  </div>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
+  @if (error(); as err) {
+    <p class="org__error">{{ err }}</p>
+  }
+
+  @if (!loading() && !error() && roots().length === 0) {
+    <p class="org__empty">No departments yet. Import departments to build the chart.</p>
+  }
+
+  <div class="org__tree">
+    @for (root of roots(); track root.departmentId) {
+      <ng-container *ngTemplateOutlet="nodeTpl; context: { $implicit: root }"></ng-container>
+    }
+  </div>
+
+</div>
+
+<!-- Recursive node template -->
+<ng-template #nodeTpl let-node>
+  <div class="node">
+
+    <div class="node__box">
+      <div class="node__main">
+        <button
+          class="node__toggle"
+          type="button"
+          [class.node__toggle--hidden]="node.children.length === 0"
+          (click)="toggleCollapse(node.departmentId)"
+          [attr.aria-label]="isCollapsed(node.departmentId) ? 'Expand' : 'Collapse'">
+          {{ isCollapsed(node.departmentId) ? '▸' : '▾' }}
+        </button>
+
+        <div class="node__title">
+          <span class="node__name">{{ node.departmentName }}</span>
+          <span class="node__code">#{{ node.departmentCode }}</span>
+        </div>
+
+        <span class="node__badges">
+          <span class="badge" title="Members in this department">
+            {{ node.users.length }} here
+          </span>
+          @if (node.children.length > 0) {
+            <span class="badge badge--total" title="Total including sub-departments">
+              {{ totalHeadcount(node) }} total
+            </span>
+          }
+        </span>
+      </div>
+
+      @if (node.users.length > 0) {
+        <button
+          class="node__members-toggle"
+          type="button"
+          (click)="toggleMembers(node.departmentId)">
+          {{ isMembersOpen(node.departmentId) ? 'Hide' : 'Show' }}
+          {{ node.users.length }} member{{ node.users.length === 1 ? '' : 's' }}
+        </button>
+
+        @if (isMembersOpen(node.departmentId)) {
+          <ul class="node__members">
+            @for (u of node.users; track u.id) {
+              <li class="member">
+                <span class="member__name">{{ u.lastName }} {{ u.firstName }}</span>
+                @if (u.title) {
+                  <span class="member__title">{{ u.title }}</span>
+                }
+                <span class="member__emp">{{ u.employeeNumber }}</span>
+              </li>
+            }
+          </ul>
+        }
+      }
+    </div>
+
+    @if (node.children.length > 0 && !isCollapsed(node.departmentId)) {
+      <div class="node__children">
+        @for (child of node.children; track child.departmentId) {
+          <ng-container *ngTemplateOutlet="nodeTpl; context: { $implicit: child }"></ng-container>
+        }
+      </div>
+    }
+
+  </div>
+</ng-template>

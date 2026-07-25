@@ -1,1 +1,88 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+
+  <div class="dashboard__header">
+    <h2>Dashboard</h2>
+    <button mat-stroked-button (click)="loadData()" [disabled]="loading()">
+      Refresh
+    </button>
+  </div>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
+  @if (error(); as err) {
+    <p class="dashboard__error">{{ err }}</p>
+  }
+
+  <!-- Stat tiles -->
+  <div class="stat-grid">
+
+    <mat-card class="stat-card" routerLink="/users">
+      <div class="stat-card__value">{{ totalUsers() }}</div>
+      <div class="stat-card__label">Total Users</div>
+    </mat-card>
+
+    <mat-card class="stat-card" routerLink="/departments">
+      <div class="stat-card__value">{{ totalDepartments() }}</div>
+      <div class="stat-card__label">Departments</div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="stat-card__value">{{ topLevelDepartments() }}</div>
+      <div class="stat-card__label">Top-level Departments</div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <div class="stat-card__value">{{ avgUsersPerDepartment() }}</div>
+      <div class="stat-card__label">Avg Users / Dept</div>
+    </mat-card>
+
+  </div>
+
+  <!-- Breakdowns -->
+  <div class="panel-grid">
+
+    <mat-card class="panel">
+      <h3>Users per Department</h3>
+
+      @if (usersPerDepartment().length === 0) {
+        <p class="panel__empty">No data yet. Import users to get started.</p>
+      } @else {
+        <div class="bars">
+          @for (row of usersPerDepartment(); track row.label) {
+            <div class="bar-row">
+              <span class="bar-row__label" [title]="row.label">{{ row.label }}</span>
+              <span class="bar-row__track">
+                <span class="bar-row__fill" [style.width.%]="row.percent"></span>
+              </span>
+              <span class="bar-row__count">{{ row.count }}</span>
+            </div>
+          }
+        </div>
+      }
+    </mat-card>
+
+    <mat-card class="panel">
+      <h3>Top Job Titles</h3>
+
+      @if (usersByTitle().length === 0) {
+        <p class="panel__empty">No data yet.</p>
+      } @else {
+        <div class="bars">
+          @for (row of usersByTitle(); track row.label) {
+            <div class="bar-row">
+              <span class="bar-row__label" [title]="row.label">{{ row.label }}</span>
+              <span class="bar-row__track">
+                <span class="bar-row__fill bar-row__fill--alt" [style.width.%]="row.percent"></span>
+              </span>
+              <span class="bar-row__count">{{ row.count }}</span>
+            </div>
+          }
+        </div>
+      }
+    </mat-card>
+
+  </div>
+
+</div>

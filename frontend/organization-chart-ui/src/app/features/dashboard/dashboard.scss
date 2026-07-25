@@ -1,0 +1,127 @@
+.dashboard {
+  padding: 8px 4px 24px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  &__error {
+    color: #c62828;
+    font-weight: 500;
+  }
+}
+
+/* ---- Stat tiles ---- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  padding: 20px;
+  text-align: center;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+
+  &[routerLink] {
+    cursor: pointer;
+  }
+
+  &[routerLink]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  }
+
+  &__value {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #3f51b5;
+  }
+
+  &__label {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* ---- Breakdown panels ---- */
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.panel {
+  padding: 16px 20px;
+
+  h3 {
+    margin: 0 0 16px;
+    font-size: 1.05rem;
+  }
+
+  &__empty {
+    color: rgba(0, 0, 0, 0.5);
+    font-style: italic;
+  }
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: minmax(90px, 160px) 1fr 36px;
+  align-items: center;
+  gap: 10px;
+
+  &__label {
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: rgba(0, 0, 0, 0.78);
+  }
+
+  &__track {
+    position: relative;
+    height: 14px;
+    background: #eceff1;
+    border-radius: 7px;
+    overflow: hidden;
+  }
+
+  &__fill {
+    display: block;
+    height: 100%;
+    min-width: 2px;
+    border-radius: 7px;
+    background: #3f51b5;
+    transition: width 0.3s ease;
+
+    &--alt {
+      background: #009688;
+    }
+  }
+
+  &__count {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: right;
+    color: rgba(0, 0, 0, 0.7);
+  }
+}

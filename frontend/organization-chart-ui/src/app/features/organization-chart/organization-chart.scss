@@ -1,0 +1,182 @@
+.org {
+  padding: 8px 4px 32px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    h2 {
+      margin: 0;
+    }
+  }
+
+  &__meta {
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.55);
+  }
+
+  &__spacer {
+    flex: 1 1 auto;
+  }
+
+  &__error {
+    color: #c62828;
+    font-weight: 500;
+  }
+
+  &__empty {
+    color: rgba(0, 0, 0, 0.5);
+    font-style: italic;
+  }
+
+  &__tree {
+    margin-top: 12px;
+  }
+}
+
+/* ---- Tree node ---- */
+.node {
+  position: relative;
+
+  &__box {
+    display: inline-block;
+    min-width: 260px;
+    max-width: 460px;
+    margin: 6px 0;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid #3f51b5;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  &__main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__toggle {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: #eef0f8;
+    color: #3f51b5;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    line-height: 1;
+
+    &:hover {
+      background: #dfe3f5;
+    }
+
+    &--hidden {
+      visibility: hidden;
+      cursor: default;
+    }
+  }
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__name {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__code {
+    font-size: 0.72rem;
+    color: rgba(0, 0, 0, 0.45);
+  }
+
+  &__badges {
+    display: flex;
+    gap: 6px;
+    flex: 0 0 auto;
+  }
+
+  &__members-toggle {
+    margin-top: 8px;
+    padding: 2px 8px;
+    border: 1px solid #e0e0e0;
+    background: #fafafa;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.65);
+    cursor: pointer;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+
+  &__members {
+    list-style: none;
+    margin: 8px 0 2px;
+    padding: 0;
+    border-top: 1px dashed #eee;
+  }
+
+  /* Children indented with an L-shaped connector */
+  &__children {
+    margin-left: 22px;
+    padding-left: 18px;
+    border-left: 2px solid #d7dbe8;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #eef0f8;
+  color: #3f51b5;
+  white-space: nowrap;
+
+  &--total {
+    background: #e0f2f1;
+    color: #00695c;
+  }
+}
+
+.member {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 2px;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #f5f5f5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &__name {
+    font-weight: 500;
+    min-width: 90px;
+  }
+
+  &__title {
+    color: #3f51b5;
+    flex: 1 1 auto;
+  }
+
+  &__emp {
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+  }
+}
