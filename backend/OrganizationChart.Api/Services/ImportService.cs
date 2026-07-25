@@ -13,6 +13,21 @@ public class ImportService : IImportService
         _context = context;
     }
 
+    // ---- Column headers as they appear in the source Excel files ----
+    // cmn_department.xlsx
+    private const string DeptCodeHeader = "ID";
+    private const string DeptNameHeader = "Name";
+    private const string DeptParentHeader = "Parent";
+
+    // sys_user.xlsx
+    // NOTE: the "Employee number" column is empty in the source file, so the
+    // per-person identifier comes from "User ID" (e.g. 0002, 0018).
+    private const string UserEmployeeNumberHeader = "User ID";
+    private const string UserFirstNameHeader = "First name";
+    private const string UserLastNameHeader = "Last name";
+    private const string UserTitleHeader = "Title";
+    private const string UserDepartmentHeader = "Department";
+
     public async Task ImportDepartmentsAsync(IFormFile file)
     {
         await using var transaction = await _context.Database.BeginTransactionAsync();
@@ -27,6 +42,7 @@ public class ImportService : IImportService
                 throw new InvalidOperationException("Worksheet not found.");
             }
 
+            var columns = BuildHeaderMap(worksheet);
             var lastRow = worksheet.LastRowUsed()?.RowNumber() ?? 1;
 
             Dictionary<string, Department> departmentDic = await _context.Departments
@@ -37,8 +53,8 @@ public class ImportService : IImportService
 
             for (int row = 2; row <= lastRow; row++)
             {
-                var departmentCode = worksheet.Cell(row, 1).GetString().Trim();
-                var departmentName = worksheet.Cell(row, 2).GetString().Trim();
+                var departmentCode = GetCell(worksheet, columns, row, DeptCodeHeader);
+                var departmentName = GetCell(worksheet, columns, row, DeptNameHeader);
 
                 if (string.IsNullOrWhiteSpace(departmentCode) || string.IsNullOrWhiteSpace(departmentName))
                     continue;
@@ -56,7 +72,7 @@ public class ImportService : IImportService
             }
             _context.Departments.AddRange(departments);
             await _context.SaveChangesAsync();
-            await SetRelations(worksheet);
+            await SetRelations(worksheet, columns);
             await transaction.CommitAsync();
         }
         catch
@@ -67,7 +83,7 @@ public class ImportService : IImportService
 
     }
 
-    private async Task SetRelations(IXLWorksheet worksheet)
+    private async Task SetRelations(IXLWorksheet worksheet, Dictionary<string, int> columns)
     {
         var lookup = await _context.Departments
         .ToDictionaryAsync(d => d.Name, d => d);
@@ -75,8 +91,8 @@ public class ImportService : IImportService
         var lastRow = worksheet.LastRowUsed()?.RowNumber() ?? 1;
         for (int row = 2; row <= lastRow; row++)
         {
-            var departmentName = worksheet.Cell(row, 2).GetString().Trim();
-            var parentName = worksheet.Cell(row, 3).GetString().Trim();
+            var departmentName = GetCell(worksheet, columns, row, DeptNameHeader);
+            var parentName = GetCell(worksheet, columns, row, DeptParentHeader);
 
             if (string.IsNullOrWhiteSpace(parentName))
                 continue;
@@ -102,6 +118,7 @@ public class ImportService : IImportService
 
             var worksheet = workbook.Worksheet(1);
 
+            var columns = BuildHeaderMap(worksheet);
             var lastRow = worksheet.LastRowUsed()?.RowNumber() ?? 1;
 
             var departmentLookup = await _context.Departments
@@ -115,11 +132,11 @@ public class ImportService : IImportService
 
             for (int row = 2; row <= lastRow; row++)
             {
-                var employeeNumber = worksheet.Cell(row, 1).GetString().Trim();
-                var firstName = worksheet.Cell(row, 2).GetString().Trim();
-                var lastName = worksheet.Cell(row, 3).GetString().Trim();
-                var title = worksheet.Cell(row, 4).GetString().Trim();
-                var departmentName = worksheet.Cell(row, 5).GetString().Trim();
+                var employeeNumber = GetCell(worksheet, columns, row, UserEmployeeNumberHeader);
+                var firstName = GetCell(worksheet, columns, row, UserFirstNameHeader);
+                var lastName = GetCell(worksheet, columns, row, UserLastNameHeader);
+                var title = GetCell(worksheet, columns, row, UserTitleHeader);
+                var departmentName = GetCell(worksheet, columns, row, UserDepartmentHeader);
 
                 if (string.IsNullOrWhiteSpace(employeeNumber))
                     continue;
@@ -153,5 +170,47 @@ public class ImportService : IImportService
             await transaction.RollbackAsync();
             throw;
         }
+    }
+
+    /// <summary>
+    /// Reads the header row (row 1) and maps each header name to its column
+    /// number, so cells can be read by header instead of a fixed position.
+    /// Matching is case-insensitive and ignores surrounding whitespace.
+    /// </summary>
+    private static Dictionary<string, int> BuildHeaderMap(IXLWorksheet worksheet)
+    {
+        var map = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+
+        var headerRow = worksheet.Row(1);
+        var lastColumn = headerRow.LastCellUsed()?.Address.ColumnNumber ?? 0;
+
+        for (int col = 1; col <= lastColumn; col++)
+        {
+            var header = worksheet.Cell(1, col).GetString().Trim();
+
+            if (string.IsNullOrWhiteSpace(header))
+                continue;
+
+            // First occurrence wins if a header appears more than once.
+            map.TryAdd(header, col);
+        }
+
+        return map;
+    }
+
+    /// <summary>
+    /// Returns the trimmed string value of the cell under the given header,
+    /// or an empty string when that header is not present in the file.
+    /// </summary>
+    private static string GetCell(
+        IXLWorksheet worksheet,
+        Dictionary<string, int> columns,
+        int row,
+        string header)
+    {
+        if (!columns.TryGetValue(header, out var col))
+            return string.Empty;
+
+        return worksheet.Cell(row, col).GetString().Trim();
     }
 }

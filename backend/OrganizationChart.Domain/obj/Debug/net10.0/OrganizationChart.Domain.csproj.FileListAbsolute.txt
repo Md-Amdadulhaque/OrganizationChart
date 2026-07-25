@@ -10,3 +10,6 @@ D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\refint\O
 D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.pdb
 D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\ref\OrganizationChart.Domain.dll
 D:\OrganizationChart\backend\OrganizationChart.Domain\obj\Debug\net10.0\OrganizationChart.Domain.sourcelink.json
+C:\Users\ss\AppData\Local\Temp\apibuild_verify\OrganizationChart.Domain.deps.json
+C:\Users\ss\AppData\Local\Temp\apibuild_verify\OrganizationChart.Domain.dll
+C:\Users\ss\AppData\Local\Temp\apibuild_verify\OrganizationChart.Domain.pdb
