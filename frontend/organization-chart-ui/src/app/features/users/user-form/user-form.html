@@ -33,7 +33,7 @@
     <mat-form-field appearance="outline">
         <mat-label>Department</mat-label>
         <mat-select formControlName="departmentId">
-            <mat-option *ngFor="let d of departments" [value]="d.id">
+            <mat-option *ngFor="let d of departments()" [value]="d.id">
                 {{ d.name }}
             </mat-option>
         </mat-select>

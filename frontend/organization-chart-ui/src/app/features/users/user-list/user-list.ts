@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
 import { User } from '../../../core/models/user';
@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./user-list.scss']
 })
 export class UserList implements OnInit {
-  users: User[] = [];
+  users = signal<User[]>([]);
 
   displayedColumns: string[] = [
     'employeeNumber',
@@ -36,7 +36,7 @@ export class UserList implements OnInit {
     this.userService.getAll().subscribe({
       next: data => {
         console.log(data);
-        this.users = data;
+        this.users.set(data);
       },
       error: err => console.error(err)
     });

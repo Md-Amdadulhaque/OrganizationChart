@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -26,7 +26,7 @@ import { Department } from '../../../core/models/department';
 })
 export class UserForm implements OnInit {
   form: FormGroup;
-  departments: Department[] = [];
+  departments = signal<Department[]>([]);
   userId: number | null = null;
 
   constructor(
@@ -58,7 +58,7 @@ export class UserForm implements OnInit {
 
   loadDepartments(): void {
     this.departmentService.getAll().subscribe({
-      next: (data) => this.departments = data,
+      next: (data) => this.departments.set(data),
       error: (err) => console.error(err)
     });
   }
