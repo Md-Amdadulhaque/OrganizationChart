@@ -1,1 +1,51 @@
-<p>user-form works!</p>
+<h2>{{ userId ? 'Edit User' : 'Create User' }}</h2>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Employee Number</mat-label>
+        <input matInput formControlName="employeeNumber">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Department</mat-label>
+        <mat-select formControlName="departmentId">
+            <mat-option *ngFor="let d of departments" [value]="d.id">
+                {{ d.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <br>
+
+    <button
+        mat-raised-button
+        color="primary"
+        type="submit">
+        Save
+    </button>
+
+</form>

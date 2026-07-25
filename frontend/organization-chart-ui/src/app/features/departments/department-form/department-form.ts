@@ -8,13 +8,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { Department } from '../../../core/models/department';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-department-form',
   imports: [ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-  MatSelectModule, // Usually required if you are using <mat-select>
+    MatSelectModule, // Usually required if you are using <mat-select>
     MatOptionModule],
   templateUrl: './department-form.html',
   styleUrl: './department-form.scss',
@@ -22,53 +23,75 @@ import { MatOptionModule } from '@angular/material/core';
 export class DepartmentForm {
   form: FormGroup;
   departments: Department[] = [];
+  departmentId: number | null = null;
   constructor(
     private fb: FormBuilder,
     private departmentService: DepartmentService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
 
     this.form = this.fb.group({
       departmentCode: ['', Validators.required],
-    name: ['', Validators.required],
+      name: ['', Validators.required],
       parentDepartmentId: [null]
     });
 
-  } 
+  }
   ngOnInit(): void {
-  this.departmentService.getAll().subscribe({
-    next: (data) => {
-      this.departments = data;
-    },
-    error: (err) => {
-      console.error(err);
+
+    this.loadDepartments();
+
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.departmentId = Number(id);
+      this.loadDepartment(this.departmentId);
     }
-  });
-}
-  OnSubmit(): void {
+  }
+  loadDepartments(): void {
+    this.departmentService.getAll().subscribe({
+      next: (data) => this.departments = data,
+      error: (err) => console.error(err)
+    });
+  }
+  loadDepartment(id: number): void {
 
-    if (this.form.invalid) {
-      return;
-    }
+    this.departmentService.getById(id).subscribe({
 
-    this.departmentService.create(this.form.value).subscribe({
+      next: (department) => {
 
-      next: () => {
-        this.router.navigate(['/departments']);
+        this.form.patchValue({
+          departmentCode: department.departmentCode,
+          name: department.name,
+          parentDepartmentId: department.parentDepartmentId
+        });
 
       },
 
-      error: (err) => {
-
-        console.error(err);
-
-        alert('Failed to create department.');
-
-      }
+      error: (err) => console.error(err)
 
     });
 
   }
+  onSubmit(): void {
+
+    if (this.form.invalid)
+        return;
+
+    if (this.departmentId == null) {
+
+        this.departmentService.create(this.form.value)
+            .subscribe(() => this.router.navigate(['/departments']));
+
+    } else {
+
+        this.departmentService.update(this.departmentId, this.form.value)
+            .subscribe(() => this.router.navigate(['/departments']));
+
+    }
+
+}
 
 
 }

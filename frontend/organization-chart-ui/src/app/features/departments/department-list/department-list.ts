@@ -4,24 +4,25 @@ import { DepartmentService } from '../../../core/services/department.service';
 import { Department } from '../../../core/models/department';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-department-list',
   standalone: true,
   imports: [CommonModule, MatTableModule,
-    MatButtonModule],
+    MatButtonModule,RouterLink],
   templateUrl: './department-list.html',
   styleUrls: ['./department-list.scss']
 })
 export class DepartmentList implements OnInit {
   departments: Department[] = [];
 
-  displayedColumns: string[] = [
-    'code',
-    'name',
-    'parent',
-    'actions'
-  ];
+ displayedColumns: string[] = [
+  'code',
+  'name',
+  'parent',
+  'actions'
+];
   constructor(private departmentService: DepartmentService) { }
 
   ngOnInit(): void {
@@ -29,9 +30,12 @@ export class DepartmentList implements OnInit {
   }
 
   private loadDepartments(): void {
-    this.departmentService.getAll().subscribe({
-      next: data => this.departments = data,
-      error: err => console.error(err)
-    });
-  }
+  this.departmentService.getAll().subscribe({
+    next: data => {
+      console.log(data);
+      this.departments = data;
+    },
+    error: err => console.error(err)
+  });
+}
 }

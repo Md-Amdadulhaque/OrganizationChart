@@ -6,6 +6,7 @@ import { UserList } from './features/users/user-list/user-list';
 import { Import } from './features/import/import';
 import { OrganizationChart } from './features/organization-chart/organization-chart';
 import { DepartmentForm } from './features/departments/department-form/department-form';
+import { UserForm } from './features/users/user-form/user-form';
 
 export const routes: Routes = [
   {
@@ -40,5 +41,13 @@ export const routes: Routes = [
   {
     path: 'departments/edit/:id',
     component: DepartmentForm
+  },
+  {
+    path: 'users/create',
+    component: UserForm
+  },
+  {
+    path: 'users/edit/:id',
+    component: UserForm
   }
 ];

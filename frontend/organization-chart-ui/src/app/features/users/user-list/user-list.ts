@@ -1,9 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/models/user';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, MatTableModule,
+    MatButtonModule, RouterLink],
   templateUrl: './user-list.html',
-  styleUrl: './user-list.scss',
+  styleUrls: ['./user-list.scss']
 })
-export class UserList {}
+export class UserList implements OnInit {
+  users: User[] = [];
+
+  displayedColumns: string[] = [
+    'employeeNumber',
+    'firstName',
+    'lastName',
+    'title',
+    'department',
+    'actions'
+  ];
+
+  constructor(private userService: UserService) { }
+
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  private loadUsers(): void {
+    this.userService.getAll().subscribe({
+      next: data => {
+        console.log(data);
+        this.users = data;
+      },
+      error: err => console.error(err)
+    });
+  }
+}

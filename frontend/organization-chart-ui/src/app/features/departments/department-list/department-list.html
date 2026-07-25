@@ -1,9 +1,6 @@
 <h2>Departments</h2>
 
-<button
-    mat-raised-button
-    color="primary"
-    routerLink="/departments/create">
+<button mat-raised-button color="primary" routerLink="/departments/create">
     Add Department
 </button>
 
@@ -32,12 +29,16 @@
         </td>
     </ng-container>
 
+
+
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
 
         <td mat-cell *matCellDef="let d">
 
-            <button mat-button>Edit</button>
+            <button mat-button color="primary" [routerLink]="['/departments/edit', d.id]">
+                Edit
+            </button>
 
             <button mat-button color="warn">
                 Delete
@@ -50,6 +51,6 @@
 
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-    
+
 
 </table>
