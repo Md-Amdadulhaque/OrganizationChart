@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\OrganizationChart\\backend\\OrganizationChart.Domain\\OrganizationChart.Domain.csproj": {}
+    "d:\\OrganizationChart\\backend\\OrganizationChart.Domain\\OrganizationChart.Domain.csproj": {}
   },
   "projects": {
-    "D:\\OrganizationChart\\backend\\OrganizationChart.Domain\\OrganizationChart.Domain.csproj": {
+    "d:\\OrganizationChart\\backend\\OrganizationChart.Domain\\OrganizationChart.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\OrganizationChart\\backend\\OrganizationChart.Domain\\OrganizationChart.Domain.csproj",
+        "projectUniqueName": "d:\\OrganizationChart\\backend\\OrganizationChart.Domain\\OrganizationChart.Domain.csproj",
         "projectName": "OrganizationChart.Domain",
-        "projectPath": "D:\\OrganizationChart\\backend\\OrganizationChart.Domain\\OrganizationChart.Domain.csproj",
+        "projectPath": "d:\\OrganizationChart\\backend\\OrganizationChart.Domain\\OrganizationChart.Domain.csproj",
         "packagesPath": "C:\\Users\\ss\\.nuget\\packages\\",
-        "outputPath": "D:\\OrganizationChart\\backend\\OrganizationChart.Domain\\obj\\",
+        "outputPath": "d:\\OrganizationChart\\backend\\OrganizationChart.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ss\\AppData\\Roaming\\NuGet\\NuGet.Config"
