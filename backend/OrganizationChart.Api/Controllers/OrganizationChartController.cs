@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationChart.Api.Services.Interfaces;
 
@@ -5,6 +6,7 @@ namespace OrganizationChart.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class OrganizationChartController : ControllerBase
 {
     private readonly IOrganizationChartService _service;

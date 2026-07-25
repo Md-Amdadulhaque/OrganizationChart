@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OrganizationChart.Api.DTOs.Department;
 using OrganizationChart.Api.Services.Interfaces;
+using OrganizationChart.Domain.Models;
 
 namespace OrganizationChart.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class DepartmentsController : ControllerBase
 {
     private readonly IDepartmentService _departmentService;
@@ -33,6 +37,7 @@ public class DepartmentsController : ControllerBase
         return Ok(department);
     }
 
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     public async Task<IActionResult> Create(CreateDepartmentDto dto)
     {
@@ -44,6 +49,7 @@ public class DepartmentsController : ControllerBase
             department);
     }
 
+    [Authorize(Roles = Roles.Admin)]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, UpdateDepartmentDto dto)
     {
@@ -55,14 +61,26 @@ public class DepartmentsController : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Roles = Roles.Admin)]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _departmentService.DeleteAsync(id);
+        try
+        {
+            var deleted = await _departmentService.DeleteAsync(id);
 
-        if (!deleted)
-            return NotFound();
+            if (!deleted)
+                return NotFound();
 
-        return NoContent();
+            return NoContent();
+        }
+        catch (DbUpdateException)
+        {
+            // FK restrict: the department still has members or sub-departments.
+            return Conflict(new
+            {
+                message = "This department still has members or sub-departments and cannot be deleted."
+            });
+        }
     }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DepartmentService } from '../../../core/services/department.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Department } from '../../../core/models/department';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,6 +24,8 @@ export class DepartmentList implements OnInit {
   'parent',
   'actions'
 ];
+  protected auth = inject(AuthService);
+
   constructor(private departmentService: DepartmentService) { }
 
   ngOnInit(): void {
@@ -45,7 +48,13 @@ export class DepartmentList implements OnInit {
 
     this.departmentService.delete(id).subscribe({
       next: () => this.loadDepartments(),
-      error: err => console.error(err)
+      error: err => {
+        console.error(err);
+        alert(
+          'Could not delete this department. It may still have members ' +
+          'or sub-departments — move or remove those first.'
+        );
+      }
     });
   }
 }

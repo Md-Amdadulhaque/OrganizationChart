@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationChart.Api.Services.Interfaces;
+using OrganizationChart.Domain.Models;
 
 namespace OrganizationChart.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = Roles.Admin)]
 public class ImportController : ControllerBase
 {
     private readonly IImportService _service;

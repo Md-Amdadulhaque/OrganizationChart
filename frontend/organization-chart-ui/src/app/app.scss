@@ -15,3 +15,17 @@ mat-toolbar {
     top: 0;
     z-index: 1000;
 }
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.toolbar-user {
+    font-size: 0.9rem;
+    margin-right: 8px;
+}
+
+.toolbar-role {
+    opacity: 0.75;
+    font-size: 0.8rem;
+}

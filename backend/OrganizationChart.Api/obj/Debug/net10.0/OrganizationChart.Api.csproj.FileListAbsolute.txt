@@ -178,3 +178,4 @@ C:\Users\ss\AppData\Local\Temp\apibuild_verify\OrganizationChart.Api.deps.json
 C:\Users\ss\AppData\Local\Temp\apibuild_verify\OrganizationChart.Api.runtimeconfig.json
 C:\Users\ss\AppData\Local\Temp\apibuild_verify\OrganizationChart.Api.dll
 C:\Users\ss\AppData\Local\Temp\apibuild_verify\OrganizationChart.Api.pdb
+D:\OrganizationChart\backend\OrganizationChart.Api\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

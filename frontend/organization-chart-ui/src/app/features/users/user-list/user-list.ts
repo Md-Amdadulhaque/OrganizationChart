@@ -1,6 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { User } from '../../../core/models/user';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,6 +27,8 @@ export class UserList implements OnInit {
     'actions'
   ];
 
+  protected auth = inject(AuthService);
+
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -39,6 +42,19 @@ export class UserList implements OnInit {
         this.users.set(data);
       },
       error: err => console.error(err)
+    });
+  }
+
+  deleteUser(id: number): void {
+    if (!confirm('Are you sure you want to delete this user?'))
+      return;
+
+    this.userService.delete(id).subscribe({
+      next: () => this.loadUsers(),
+      error: err => {
+        console.error(err);
+        alert('Could not delete this user.');
+      }
     });
   }
 }

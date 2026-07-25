@@ -1,0 +1,37 @@
+<div class="login">
+  <mat-card class="login__card">
+    <h2 class="login__title">Sign in</h2>
+    <p class="login__subtitle">Organization Chart System</p>
+
+    @if (loading()) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <mat-form-field appearance="outline" class="login__field">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" autocomplete="username">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="login__field">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" autocomplete="current-password">
+      </mat-form-field>
+
+      @if (error(); as err) {
+        <p class="login__error">{{ err }}</p>
+      }
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        class="login__submit"
+        [disabled]="loading() || form.invalid">
+        Sign in
+      </button>
+
+    </form>
+  </mat-card>
+</div>
