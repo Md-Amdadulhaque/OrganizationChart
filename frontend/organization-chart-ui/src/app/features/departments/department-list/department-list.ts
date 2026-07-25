@@ -38,4 +38,14 @@ export class DepartmentList implements OnInit {
     error: err => console.error(err)
   });
 }
+
+  deleteDepartment(id: number): void {
+    if (!confirm('Are you sure you want to delete this department?'))
+      return;
+
+    this.departmentService.delete(id).subscribe({
+      next: () => this.loadDepartments(),
+      error: err => console.error(err)
+    });
+  }
 }
