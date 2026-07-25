@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OrganizationChart.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee73ba5f70c07aec6023cc6680c945d2f462a1ea")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4595d01b1c1a254c15d807cdc83484fa80f71704")]
 [assembly: System.Reflection.AssemblyProductAttribute("OrganizationChart.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OrganizationChart.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

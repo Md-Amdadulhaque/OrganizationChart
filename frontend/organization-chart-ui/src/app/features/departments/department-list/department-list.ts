@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DepartmentService } from '../../../core/services/department.service';
 import { Department } from '../../../core/models/department';
@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./department-list.scss']
 })
 export class DepartmentList implements OnInit {
-  departments: Department[] = [];
+  departments = signal<Department[]>([]);
 
  displayedColumns: string[] = [
   'code',
@@ -33,7 +33,7 @@ export class DepartmentList implements OnInit {
   this.departmentService.getAll().subscribe({
     next: data => {
       console.log(data);
-      this.departments = data;
+      this.departments.set(data);
     },
     error: err => console.error(err)
   });

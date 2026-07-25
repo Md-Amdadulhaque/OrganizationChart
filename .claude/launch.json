@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ng-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start", "--prefix", "frontend/organization-chart-ui"],
+      "port": 4200
+    }
+  ]
+}

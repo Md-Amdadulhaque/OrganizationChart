@@ -1,1 +1,35 @@
-<p>import works!</p>
+<h2>Import Data</h2>
+
+<h3>Departments</h3>
+
+<input
+    type="file"
+    (change)="onDepartmentSelected($event)"
+    accept=".xlsx,.xls">
+
+<br><br>
+
+<button
+    mat-raised-button
+    color="primary"
+    (click)="importDepartments()">
+    Import Departments
+</button>
+
+<hr>
+
+<h3>Users</h3>
+
+<input
+    type="file"
+    (change)="onUserSelected($event)"
+    accept=".xlsx,.xls">
+
+<br><br>
+
+<button
+    mat-raised-button
+    color="primary"
+    (click)="importUsers()">
+    Import Users
+</button>
