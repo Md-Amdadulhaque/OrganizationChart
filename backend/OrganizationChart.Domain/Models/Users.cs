@@ -13,6 +13,7 @@ public class User
     public string Title { get; set; } = string.Empty;
 
     public int DepartmentId { get; set; }
-
+    
+    public string email { get; set; } = null!;
     public Department Department { get; set; } = null!;
 }
