@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using OrganizationChart.Api.Services.Interfaces;
-using OrganizationChart.Api.DTOs;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -17,5 +16,21 @@ public class ManagerController : ControllerBase
         _emailSenderService = emailSenderService;
     }
 
-    // ...
+    [HttpPost("send-email")]
+    public async Task<IActionResult> SendEmail([FromBody] EmailRequest emailRequest)
+    {
+        if (emailRequest == null || string.IsNullOrEmpty(emailRequest.To))
+        {
+            return BadRequest("Invalid email request.");
+        }
+        await _emailSenderService.SendEmailAsync(emailRequest.To, emailRequest.Subject, emailRequest.Body);
+        return Ok("Email sent successfully.");
+    }
+}
+
+public class EmailRequest
+{
+    public string To { get; set; }
+    public string ?Subject { get; set; }
+    public string ?Body { get; set; }
 }
