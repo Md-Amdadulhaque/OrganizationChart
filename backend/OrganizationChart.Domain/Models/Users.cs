@@ -14,6 +14,8 @@ public class User
 
     public int DepartmentId { get; set; }
     
-    public string email { get; set; } = null!;
+    public string Email { get; set; } = null!;
     public Department Department { get; set; } = null!;
+
+    public string []Roles { get; set; } = Array.Empty<string>();
 }

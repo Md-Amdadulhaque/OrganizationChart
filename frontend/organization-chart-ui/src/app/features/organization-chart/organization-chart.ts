@@ -25,6 +25,7 @@ export class OrganizationChart implements OnInit {
   totalDepartments = computed(() => this.countNodes(this.roots()));
 
   constructor(private orgService: OrganizationChartService) {}
+  
 
   ngOnInit(): void {
     this.load();
@@ -46,6 +47,8 @@ export class OrganizationChart implements OnInit {
       }
     });
   }
+
+
 
   // ---- collapse / expand of child departments ----
   isCollapsed(id: number): boolean {

@@ -1,0 +1,7 @@
+## .NET Core (bin and obj)
+**/bin/
+**/obj/
+**/Migrations/
+## OS generated files
+.DS_Store
+Thumbs.db

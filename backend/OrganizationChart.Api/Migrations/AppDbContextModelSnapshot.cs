@@ -51,7 +51,7 @@ namespace OrganizationChart.Api.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("AuthUsers");
+                    b.ToTable("AuthUsers", (string)null);
                 });
 
             modelBuilder.Entity("OrganizationChart.Domain.Models.Department", b =>
@@ -77,7 +77,7 @@ namespace OrganizationChart.Api.Migrations
 
                     b.HasIndex("ParentDepartmentId");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("OrganizationChart.Domain.Models.DepartmentHistory", b =>
@@ -106,7 +106,7 @@ namespace OrganizationChart.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DepartmentHistories");
+                    b.ToTable("DepartmentHistories", (string)null);
                 });
 
             modelBuilder.Entity("OrganizationChart.Domain.Models.User", b =>
@@ -120,6 +120,10 @@ namespace OrganizationChart.Api.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("EmployeeNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -132,11 +136,11 @@ namespace OrganizationChart.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("email")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -144,7 +148,7 @@ namespace OrganizationChart.Api.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("OrganizationChart.Domain.Models.UserHistory", b =>
@@ -173,7 +177,7 @@ namespace OrganizationChart.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserHistories");
+                    b.ToTable("UserHistories", (string)null);
                 });
 
             modelBuilder.Entity("OrganizationChart.Domain.Models.Department", b =>

@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationChart.Api.Services.Interfaces;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = "Manager")]
 public class ManagerController : ControllerBase
 {
     private readonly IDepartmentService _departmentService;
