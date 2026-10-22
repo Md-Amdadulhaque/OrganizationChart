@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationChart.Api.Services.Interfaces;
@@ -28,11 +29,35 @@ public class ManagerController : ControllerBase
         await _emailSenderService.SendEmailAsync(emailRequest.To, emailRequest.Subject, emailRequest.Body);
         return Ok("Email sent successfully.");
     }
+    [HttpPost("SendEmailToDepartment")]
+    public async Task<IActionResult> SendEmailToDepartment([FromBody] SendEmailToDepartmentRequest request)
+    {
+        if (request == null || string.IsNullOrEmpty(request.DepartmentId))
+        {
+            return BadRequest("Invalid request.");
+        }
+
+        var employees = await _departmentService.GetEmployeesInDepartmentAsync(request.DepartmentId);
+        foreach (var employee in employees)
+        {
+            await _emailSenderService.SendEmailAsync(employee.Email, request.Subject, request.Body);
+        }
+
+        return Ok("Emails sent successfully.");
+    }
 }
 
+
 public class EmailRequest
+{  
+    public required string To { get; set; }
+    public string ?Subject { get; set; }
+    public string ?Body { get; set; }
+}
+
+public class SendEmailToDepartmentRequest
 {
-    public string To { get; set; }
+    public required string DepartmentId { get; set; }
     public string ?Subject { get; set; }
     public string ?Body { get; set; }
 }

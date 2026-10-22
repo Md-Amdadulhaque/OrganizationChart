@@ -1,7 +1,12 @@
 using System.Net.Mail;
+using RabbitMq.Client;
 public class EmailSenderService:IEmailSenderService
 {   
     private readonly IConfiguration _configuration;
+
+    private readonly string _hostname = "localhost";
+    private readonly string _queueName = "email_queue";
+    
     public EmailSenderService(IConfiguration configuration)
     {
         _configuration = configuration;

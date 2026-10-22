@@ -107,4 +107,9 @@ public class DepartmentService : IDepartmentService
 
         return true;
     }
+
+    public Task<IEnumerable<User>> GetEmployeesInDepartmentAsync(string departmentId)
+    {
+        throw new NotImplementedException();
+    }
 }

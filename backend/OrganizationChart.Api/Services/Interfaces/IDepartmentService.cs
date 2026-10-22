@@ -1,5 +1,5 @@
 using OrganizationChart.Api.DTOs.Department;
-
+using OrganizationChart.Domain.Models; 
 namespace OrganizationChart.Api.Services.Interfaces;
 
 public interface IDepartmentService
@@ -13,4 +13,5 @@ public interface IDepartmentService
     Task<bool> UpdateAsync(int id, UpdateDepartmentDto dto);
 
     Task<bool> DeleteAsync(int id);
+    Task<IEnumerable<User>> GetEmployeesInDepartmentAsync(string departmentId);
 }
