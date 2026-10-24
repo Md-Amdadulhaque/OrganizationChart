@@ -28,7 +28,9 @@ builder.Services.AddScoped<IOrganizationChartService, OrganizationChartService>(
 builder.Services.AddScoped<IImportService, ImportService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddSingleton<IEmailPublisher, EmailPublisher>();
+builder.Services.AddSingleton<IEmailSenderService, EmailSenderService>();
 builder.Services.AddHostedService<EmailConsumer>();
+
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key is not configured.");
 
