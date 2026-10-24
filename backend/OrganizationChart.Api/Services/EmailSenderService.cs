@@ -1,5 +1,4 @@
 using System.Net.Mail;
-using RabbitMq.Client;
 public class EmailSenderService:IEmailSenderService
 {   
     private readonly IConfiguration _configuration;
@@ -11,7 +10,7 @@ public class EmailSenderService:IEmailSenderService
     {
         _configuration = configuration;
     }
-    public async Task SendEmailAsync(string to,string subject,string body)
+    public async Task SendEmailAsync(MailAddressCollection to, string subject, string body)
     {
         using (var client = new SmtpClient(_configuration["Email:Smtp:Host"], int.Parse(_configuration["Email:Smtp:Port"])))
         {
@@ -25,7 +24,7 @@ public class EmailSenderService:IEmailSenderService
                 Body = body,
                 IsBodyHtml = true
             };
-            mailMessage.To.Add(to);
+            mailMessage.To.Add(to.ToString());
             await client.SendMailAsync(mailMessage);
         }
     }

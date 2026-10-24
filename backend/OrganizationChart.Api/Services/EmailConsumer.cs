@@ -1,6 +1,7 @@
 
 
 
+using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
 using RabbitMQ.Client;
@@ -9,8 +10,14 @@ using RabbitMQ.Client.Events;
 public class EmailConsumer : BackgroundService
 {   
     private readonly string _queueName = "email_queue";
+    private readonly IEmailSenderService _emailSenderService;
      private IConnection? _connection;
     private IChannel? _channel;
+
+    public EmailConsumer(IEmailSenderService emailSenderService)
+    {
+        _emailSenderService = emailSenderService;
+    }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var factory = new ConnectionFactory{HostName = "localhost"};
@@ -35,20 +42,18 @@ public class EmailConsumer : BackgroundService
             
             try
             {
-                var email = JsonSerializer.Deserialize<EmailMessage>(json);
+                var email = JsonSerializer.Deserialize<MailMessage>(json);
                 if (email != null)
                 {
-                    _logger.LogInformation("Sending email to {Recipient}", email.RecipientEmail);
-                    
-                    // 🚀 PLACE YOUR SMTP OR EMAIL PROVIDER SEND CODE HERE 🚀
-                    await SimulateSendEmailAsync(email); 
+                     //_logger.LogInformation("Sending email to {Recipient}", email.To);
+                     await _emailSenderService.SendEmailAsync(email.To, email.Subject, email.Body);
                 }
 
                 await _channel.BasicAckAsync(deliveryTag: ea.DeliveryTag, multiple: false, cancellationToken: stoppingToken);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to process email message.");
+               // _logger.LogError(ex, "Failed to process email message.");
                 await _channel.BasicNackAsync(deliveryTag: ea.DeliveryTag, multiple: false, requeue: true, cancellationToken: stoppingToken);
             }
         };
@@ -59,8 +64,6 @@ public class EmailConsumer : BackgroundService
             consumer: consumer,
             cancellationToken: stoppingToken);
 
-        // Keep the service alive until stopped
         await Task.Delay(Timeout.Infinite, stoppingToken);
-    }
     }
 }

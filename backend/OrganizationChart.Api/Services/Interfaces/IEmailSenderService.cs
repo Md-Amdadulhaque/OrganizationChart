@@ -1,5 +1,7 @@
 
+using System.Net.Mail;
+
 public interface IEmailSenderService
 {
-    Task SendEmailAsync(string to, string subject, string body);
+    Task SendEmailAsync(MailAddressCollection to, string subject, string body);
 }

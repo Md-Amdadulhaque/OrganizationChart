@@ -11,12 +11,13 @@ public class ManagerController : ControllerBase
     private readonly IDepartmentService _departmentService;
     private readonly IEmailSenderService _emailSenderService;
 
+    private readonly IEmailPublisher _emailPublisher;
+
     public ManagerController(
-        IDepartmentService departmentService,
-        IEmailSenderService emailSenderService)
+        IDepartmentService departmentService,IEmailPublisher emailPublisher)
     {
         _departmentService = departmentService;
-        _emailSenderService = emailSenderService;
+        _emailPublisher = emailPublisher;
     }
 
     [HttpPost("send-email")]
@@ -26,7 +27,7 @@ public class ManagerController : ControllerBase
         {
             return BadRequest("Invalid email request.");
         }
-        await _emailSenderService.SendEmailAsync(emailRequest.To, emailRequest.Subject, emailRequest.Body);
+       // await _emailSenderService.SendEmailAsync(emailRequest.To, emailRequest.Subject, emailRequest.Body);
         return Ok("Email sent successfully.");
     }
     [HttpPost("SendEmailToDepartment")]
@@ -40,9 +41,8 @@ public class ManagerController : ControllerBase
         var employees = await _departmentService.GetEmployeesInDepartmentAsync(request.DepartmentId);
         foreach (var employee in employees)
         {
-            await _emailSenderService.SendEmailAsync(employee.Email, request.Subject, request.Body);
+            await _emailPublisher.PublishEmailAsync(employee.Email, request.Subject, request.Body);
         }
-
         return Ok("Emails sent successfully.");
     }
 }
